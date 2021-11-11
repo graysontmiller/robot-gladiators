@@ -81,7 +81,15 @@ var fight = function(enemyName) {
 // enemyNames[i] is the argument that causes the fight function to call multiple times.
 
 for(var i=0; i < enemyNames.length; i++) {
-    var pickedEnemyName = enemyNames[i]
-    enemyHealth = 50
-    fight(pickedEnemyName)
+    // A new enemy is picked and the round begins only if it meets the playerHealth condition.
+    if (playerHealth > 0){
+        window.alert("Welcome to Robot Gladiators! Round " + ( i + 1) + ", fight!")
+        var pickedEnemyName = enemyNames[i]
+        enemyHealth = 50
+        fight(pickedEnemyName)
+    }
+    else {
+        window.alert("You have lost your robot in battle! Game Over!");
+        break;
+    }
 }
