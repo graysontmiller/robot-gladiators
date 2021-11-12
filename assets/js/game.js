@@ -3,6 +3,9 @@
 //      * Fight all enemy-robots
 //      * Defeat each enemy-robot
 // "Lose" - Player robot's health is zero or less
+//Wrap game logic in startGame()
+//on defeat, call endGame()
+//between rounds, offer shop()
 
 // VAR PLAYER NAME IS THE RESULT OF THE PROMPT FUNCTION
 var playerName = window.prompt("What is your robot's name?")
@@ -76,20 +79,54 @@ var fight = function(enemyName) {
     }
   };
 
-// execute function
+
 // for loop with the variable i starting at 0, as long as i is less than enemyNames length, for i + 1 times.
 // enemyNames[i] is the argument that causes the fight function to call multiple times.
 
-for(var i=0; i < enemyNames.length; i++) {
-    // A new enemy is picked and the round begins only if it meets the playerHealth condition.
-    if (playerHealth > 0){
-        window.alert("Welcome to Robot Gladiators! Round " + ( i + 1) + ", fight!")
-        var pickedEnemyName = enemyNames[i]
-        enemyHealth = 50
-        fight(pickedEnemyName)
+var startGame = function() {
+      // reset player stats
+    playerHealth = 100;
+    playerAttack = 10;
+    playerMoney = 10;
+
+    for(var i=0; i < enemyNames.length; i++) {
+        // A new enemy is picked and the round begins only if it meets the playerHealth condition.
+        if (playerHealth > 0){
+            window.alert("Welcome to Robot Gladiators! Round " + ( i + 1) + ", fight!")
+            //this function is called a local function. Only exists within this function.
+            var pickedEnemyName = enemyNames[i]
+            enemyHealth = 50
+            fight(pickedEnemyName)
+        }
+        else {
+            window.alert("You have lost your robot in battle! Game Over!");
+            break;
+        }
     }
-    else {
-        window.alert("You have lost your robot in battle! Game Over!");
-        break;
-    }
-}
+    //play again
+    endGame();
+};
+
+// function to end the entire game
+var endGame = function() {
+  window.alert("The game has now ended. Let's see how you did!");
+
+  // if player is still alive, player wins!
+  if (playerHealth > 0) {
+    window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + '.');
+  } else {
+    window.alert("You've lost your robot in battle!");
+  }
+
+  // ask player if they'd like to play again
+  var playAgainConfirm = window.confirm('Would you like to play again?');
+
+  if (playAgainConfirm) {
+    startGame();
+  } else {
+    window.alert('Thank you for playing Robot Gladiators! Come back soon!');
+  }
+};
+
+//start the game when the page loads. Its at the bottom bc functions need to be defined before used.
+startGame()
